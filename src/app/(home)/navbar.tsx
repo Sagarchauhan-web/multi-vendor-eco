@@ -5,6 +5,9 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
+import { NavbarSidebar } from './navbar-sidebar';
+import { useState } from 'react';
+import { MenuIcon } from 'lucide-react';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -57,6 +60,8 @@ const navbarItems = [
 
 export const Navbar = () => {
   const pathname = usePathname();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
   return (
     <nav className='h-20 flex border-b justify-between font-medium bg-white'>
       <Link href='/' className='pl-6 items-center flex'>
@@ -64,6 +69,14 @@ export const Navbar = () => {
           funroad
         </span>
       </Link>
+
+      <NavbarSidebar
+        open={isSidebarOpen}
+        onOpenChange={(value) => {
+          setIsSidebarOpen(value);
+        }}
+        items={navbarItems}
+      />
 
       <div className='items-center lg:flex gap-4 hidden'>
         {navbarItems.map((item) => (
@@ -90,6 +103,16 @@ export const Navbar = () => {
           className='border-l border-t-0 border-b-0 border-r-0 px-12 h-full rounded-none bg-black text-white hover:bg-pink-400 hover:text-black transition-colors text-lg'
         >
           <Link href={'/sign-up'}>Start Selling</Link>
+        </Button>
+      </div>
+
+      <div className='flex lg:hidden items-center justify-center'>
+        <Button
+          variant={'ghost'}
+          onClick={() => setIsSidebarOpen(true)}
+          className='size-12 border-transparent bg-white'
+        >
+          <MenuIcon />
         </Button>
       </div>
     </nav>
